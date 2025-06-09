@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-import watchlist.urls
+
 urlpatterns = [
-    path('', admin.site.urls),
-    path('watchlist/',include(watchlist.urls))
+    path('admin/', admin.site.urls),
+    path('watchlist/',include('watchlist.urls'))
 ]
