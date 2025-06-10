@@ -1,3 +1,4 @@
+from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render
-
-# Create your views here.
+def sample_function(request):
+    return HttpResponse("Sample Function Working Very Well")
