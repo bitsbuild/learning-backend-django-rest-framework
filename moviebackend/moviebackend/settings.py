@@ -10,8 +10,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'movierestapi'
+    'movierestapi',
+    'rest_framework'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

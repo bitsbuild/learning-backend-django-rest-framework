@@ -1,3 +1,3 @@
 from django.contrib import admin
-
-# Register your models here.
+from movierestapi.models import Movie
+admin.site.register(Movie)
