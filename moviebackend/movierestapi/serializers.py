@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from movierestapi.models import Movie
 class MovieSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
     name = serializers.CharField()
     description = serializers.CharField()
     isReleased = serializers.BooleanField()

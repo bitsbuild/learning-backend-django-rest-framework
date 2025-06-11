@@ -21,13 +21,13 @@ def movies(request):
         else:
             return Response(serializer.errors)
 @api_view(['GET','PUT','DELETE'])
-def movie_detail(request,movie_name):
+def movie_detail(request,id):
     if request.method == 'GET':
-        movie_detail = Movie.objects.get(pk=movie_name) 
+        movie_detail = Movie.objects.get(pk=id) 
         serialized_movie_detail = MovieSerializer(movie_detail)
         return Response(serialized_movie_detail.data)
     elif request.method == 'PUT':
-        movie_detail = Movie.objects.get(pk=movie_name) 
+        movie_detail = Movie.objects.get(pk=id) 
         serializer = MovieSerializer(movie_detail,data = request.data)
         if serializer.is_valid():
             serializer.save()
@@ -37,7 +37,7 @@ def movie_detail(request,movie_name):
 
     elif request.method == 'DELETE':
         try:
-            Movie.objects.get(pk=movie_name).delete()
+            Movie.objects.get(pk=id).delete()
             return Response({"status":"success"},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'status':str(e)},status=status.HTTP_400_BAD_REQUEST)
