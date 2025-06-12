@@ -1,7 +1,6 @@
 from django.urls import path
-from movierestapi.views import sample_function,movies,movie_detail
+from movierestapi.views import MoviesAV,MovieDetailAV
 urlpatterns = [
-    path('sample/',sample_function),
-    path('movies/',movies),
-    path('movie-detail/<uuid:id>',movie_detail),
+    path('movies/',MoviesAV.as_view()),
+    path('movie-detail/<uuid:id>',MovieDetailAV.as_view()),
 ]
