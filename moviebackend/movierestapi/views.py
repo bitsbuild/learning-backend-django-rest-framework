@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from drf_yasg.utils import swagger_auto_schema
 class MoviesAV(APIView):
     def get(self,request):
         try:
@@ -14,7 +15,7 @@ class MoviesAV(APIView):
             return Response(serialized_mov.data,status=status.HTTP_200_OK)
         except Exception as e:
             return Response(serialized_mov.errors,status=status.HTTP_400_BAD_REQUEST)
-
+    @swagger_auto_schema(request_body=MovieSerializer)
     def post(self,request):
         mov = MovieSerializer(data=request.data)
         if mov.is_valid():
@@ -30,6 +31,7 @@ class MovieDetailAV(APIView):
             return Response(serialized_movie.data,status=status.HTTP_200_OK)
         except Exception as e:
             return Response(serialized_movie.error_messages,status=status.HTTP_404_NOT_FOUND)
+    @swagger_auto_schema(request_body=MovieSerializer)
     def put(self,request,id):
         movie = Movie.objects.get(pk=id)
         serrializer = MovieSerializer(movie,data=request.data)
