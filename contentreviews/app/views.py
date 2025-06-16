@@ -76,6 +76,22 @@ class StreamingPlatformAV(APIView):
             return Response(new_platform.data,status=status.HTTP_200_OK)
         else:
             return Response(new_platform.errors,status=status.HTTP_400_BAD_REQUEST)
+class StreamingPlatformDeleteUpdateAV(APIView):
+    def delete(self, request, id):
+        try:
+            StreamingPlatform.objects.get(pk=id).delete()
+            return Response({"status": "success"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"status": "failure", "error_message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(request_body=StreamingPlatformSerializer)
+    def put(self, request, id):
+        instance = StreamingPlatform.objects.get(pk=id)
+        put_serializer = StreamingPlatformSerializer(instance, data=request.data)
+        if put_serializer.is_valid():
+            put_serializer.save()
+            return Response(put_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(put_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class ContentReviewAV(APIView):
     def get(self,request):
         reviews = ContentReviews.objects.all()
@@ -89,3 +105,19 @@ class ContentReviewAV(APIView):
             return Response(new_review.data,status=status.HTTP_200_OK)
         else:
             return Response(new_review.errors,status=status.HTTP_400_BAD_REQUEST)
+class ContentReviewDeleteUpdateAV(APIView):
+    def delete(self, request, id):
+        try:
+            ContentReviews.objects.get(pk=id).delete()
+            return Response({"status": "success"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"status": "failure", "error_message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(request_body=ContentReviewSerializer)
+    def put(self, request, id):
+        instance = ContentReviews.objects.get(pk=id)
+        put_serializer = ContentReviewSerializer(instance, data=request.data)
+        if put_serializer.is_valid():
+            put_serializer.save()
+            return Response(put_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(put_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
