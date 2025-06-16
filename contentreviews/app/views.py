@@ -17,7 +17,23 @@ class ContentAV(APIView):
             new_content.save()
             return Response(new_content.data,status=status.HTTP_200_OK)
         else:
-            return Response(new_content.data,status=status.HTTP_400_BAD_REQUEST)
+            return Response(new_content.errors,status=status.HTTP_400_BAD_REQUEST)
+class ContentDeleteUpdateAV(APIView):
+    def delete(self,request,id):
+        try:
+            ContentDetails.objects.get(pk=id).delete()
+            return Response({"status":"success"},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"status":"failure","error_message":str(e)},status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(request_body=ContentSerializer)
+    def put(self,request,id):
+        instance = ContentDetails.objects.get(pk=id)
+        put_serializer = ContentSerializer(instance,data=request.data)
+        if put_serializer.is_valid():
+            put_serializer.save()
+            return Response(put_serializer.data,status=status.HTTP_200_OK)
+        else:
+            return Response(put_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 class ArtistAV(APIView):
     def get(self,request):
         artists = Artists.objects.all()
@@ -46,7 +62,14 @@ class StreamingPlatformAV(APIView):
             return Response(new_platform.errors,status=status.HTTP_400_BAD_REQUEST)
 class ContentReviewAV(APIView):
     def get(self,request):
-        pass
+        reviews = ContentReviews.objects.all()
+        serialized_reviews = ContentReviewSerializer(reviews,many=True)
+        return Response(serialized_reviews.data,status=status.HTTP_200_OK)
     @swagger_auto_schema(request_body=ContentReviewSerializer)
     def post(self,request):
-        pass
+        new_review = ContentReviewSerializer(data=request.data)
+        if new_review.is_valid():
+            new_review.save()
+            return Response(new_review.data,status=status.HTTP_200_OK)
+        else:
+            return Response(new_review.errors,status=status.HTTP_400_BAD_REQUEST)
