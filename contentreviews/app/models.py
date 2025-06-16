@@ -21,7 +21,6 @@ class ContentDetails(models.Model):
     content_description = models.CharField(max_length=350)
     content_released = models.BooleanField(default=True)
     content_created = models.DateTimeField(auto_now_add=True,editable=False)
-    content_updated = models.DateTimeField(default=timezone.now,editable=True)
     content_platform = models.ForeignKey(StreamingPlatform,on_delete=models.CASCADE,related_name="content")
     artists = models.ManyToManyField(Artists,related_name="content",blank=True)
     def __str__(self):
@@ -32,7 +31,6 @@ class ContentReviews(models.Model):
     review_body = models.CharField(max_length=350)
     review_stars = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(5)])
     review_created = models.DateTimeField(auto_now_add=True,editable=False)
-    review_updated = models.DateTimeField(default=timezone.now,editable=True)
     review_movie = models.ForeignKey(ContentDetails,on_delete=models.CASCADE,related_name="reviews")
     def __str__(self):
         return self.review_name
