@@ -47,6 +47,22 @@ class ArtistAV(APIView):
             return Response(serialized_artist.data,status=status.HTTP_200_OK)
         else:
             return Response(serialized_artist.errors,status=status.HTTP_400_BAD_REQUEST)
+class ArtistDeleteUpdateAV(APIView):
+    def delete(self, request, id):
+        try:
+            Artists.objects.get(pk=id).delete()
+            return Response({"status": "success"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"status": "failure", "error_message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(request_body=ArtistsSerializer)
+    def put(self, request, id):
+        instance = Artists.objects.get(pk=id)
+        put_serializer = ArtistsSerializer(instance, data=request.data)
+        if put_serializer.is_valid():
+            put_serializer.save()
+            return Response(put_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(put_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class StreamingPlatformAV(APIView):
     def get(self,request):
         platforms = StreamingPlatform.objects.all()
