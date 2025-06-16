@@ -6,13 +6,13 @@ class ContentSerializer(serializers.ModelSerializer):
         feilds = '__all__'
 class StreamingPlatformSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ContentDetails
+        model = StreamingPlatform
         feilds = '__all__'
 class ArtistsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ContentDetails
+        model = Artists
         feilds = '__all__'
 class ContentReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ContentDetails
+        model = ContentReviews
         feilds = '__all__'
