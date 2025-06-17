@@ -25,3 +25,13 @@ class ReviewsListCreateAV(generics.ListCreateAPIView):
 class ReviewsDetailAV(generics.RetrieveUpdateDestroyAPIView):
     queryset = ContentReviews.objects.all()
     serializer_class = ContentReviewSerializer
+class ContentPerPlatformAV(generics.ListAPIView):
+    serializer_class = ContentSerializer
+    def get_queryset(self):
+        platform_id = self.kwargs['pk']
+        return ContentDetails.objects.filter(content_platform=platform_id)
+class ContentPerArtistAV(generics.ListAPIView):
+    serializer_class = ContentSerializer
+    def get_queryset(self):
+        artist_id = self.kwargs['pk']
+        return ContentDetails.objects.filter(artists__artist_id=artist_id)
