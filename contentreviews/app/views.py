@@ -1,9 +1,12 @@
 from rest_framework import generics
 from app.models import ContentDetails, ContentReviews, Artists, StreamingPlatform
 from app.serializers import ContentSerializer,ContentReviewSerializer,ArtistsSerializer,StreamingPlatformSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 class ContentListCreateAV(generics.ListCreateAPIView):
     queryset = ContentDetails.objects.all()
     serializer_class = ContentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['content_platform','content_released','artists']
 class ContentDetailAV(generics.RetrieveUpdateDestroyAPIView):
     queryset = ContentDetails.objects.all()
     serializer_class = ContentSerializer
@@ -22,6 +25,8 @@ class StreamingPlatformDetailAV(generics.RetrieveUpdateDestroyAPIView):
 class ReviewsListCreateAV(generics.ListCreateAPIView):
     queryset = ContentReviews.objects.all()
     serializer_class = ContentReviewSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['review_movie']
 class ReviewsDetailAV(generics.RetrieveUpdateDestroyAPIView):
     queryset = ContentReviews.objects.all()
     serializer_class = ContentReviewSerializer
