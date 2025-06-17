@@ -13,6 +13,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'app',
+    'django_filters',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
