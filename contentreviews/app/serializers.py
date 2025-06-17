@@ -1,23 +1,23 @@
 from app.models import ContentDetails,StreamingPlatform,Artists,ContentReviews
 from rest_framework import serializers
-class ContentReviewSerializer(serializers.HyperlinkedModelSerializer):
+class ContentReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContentReviews
         fields = '__all__'
         exclude = []
-class ContentSerializer(serializers.HyperlinkedModelSerializer):
+class ContentSerializer(serializers.ModelSerializer):
     reviews = ContentReviewSerializer(many=True,read_only=True)
     class Meta:
         model = ContentDetails
         fields = '__all__'
         exclude = []
-class StreamingPlatformSerializer(serializers.HyperlinkedModelSerializer):
+class StreamingPlatformSerializer(serializers.ModelSerializer):
     content = ContentSerializer(many=True,read_only=True)
     class Meta:
         model = StreamingPlatform
         fields = '__all__'
         exclude = []
-class ArtistsSerializer(serializers.HyperlinkedModelSerializer):
+class ArtistsSerializer(serializers.ModelSerializer):
     content = ContentSerializer(many=True,read_only=True)
     class Meta:
         model = Artists
