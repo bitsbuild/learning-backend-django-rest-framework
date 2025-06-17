@@ -4,22 +4,18 @@ class ContentReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContentReviews
         fields = '__all__'
-        exclude = []
 class ContentSerializer(serializers.ModelSerializer):
     reviews = ContentReviewSerializer(many=True,read_only=True)
     class Meta:
         model = ContentDetails
         fields = '__all__'
-        exclude = []
 class StreamingPlatformSerializer(serializers.ModelSerializer):
     content = ContentSerializer(many=True,read_only=True)
     class Meta:
         model = StreamingPlatform
         fields = '__all__'
-        exclude = []
 class ArtistsSerializer(serializers.ModelSerializer):
     content = ContentSerializer(many=True,read_only=True)
     class Meta:
         model = Artists
         fields = '__all__'
-        exclude = []
