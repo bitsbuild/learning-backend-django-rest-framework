@@ -8,11 +8,11 @@ from rest_framework import status
 class ContentAV(APIView):
     def get(self,request):
         contents = ContentDetails.objects.all()
-        serialized_contents = ContentSerializer(contents,many=True)
+        serialized_contents = ContentSerializer(contents,many=True, context={'request': request})
         return Response(serialized_contents.data,status=status.HTTP_200_OK)
     @swagger_auto_schema(request_body=ContentSerializer)
     def post(self,request):
-        new_content = ContentSerializer(data=request.data)
+        new_content = ContentSerializer(data=request.data, context={'request': request})
         if new_content.is_valid():
             new_content.save()
             return Response(new_content.data,status=status.HTTP_200_OK)
@@ -28,7 +28,7 @@ class ContentDeleteUpdateAV(APIView):
     @swagger_auto_schema(request_body=ContentSerializer)
     def put(self,request,id):
         instance = ContentDetails.objects.get(pk=id)
-        put_serializer = ContentSerializer(instance,data=request.data)
+        put_serializer = ContentSerializer(instance,data=request.data, context={'request': request})
         if put_serializer.is_valid():
             put_serializer.save()
             return Response(put_serializer.data,status=status.HTTP_200_OK)
@@ -37,11 +37,11 @@ class ContentDeleteUpdateAV(APIView):
 class ArtistAV(APIView):
     def get(self,request):
         artists = Artists.objects.all()
-        serialized_artists = ArtistsSerializer(artists,many=True)
+        serialized_artists = ArtistsSerializer(artists,many=True, context={'request': request})
         return Response(serialized_artists.data,status=status.HTTP_200_OK)
     @swagger_auto_schema(request_body=ArtistsSerializer)
     def post(self,request):
-        serialized_artist = ArtistsSerializer(data=request.data)
+        serialized_artist = ArtistsSerializer(data=request.data, context={'request': request})
         if serialized_artist.is_valid():
             serialized_artist.save()
             return Response(serialized_artist.data,status=status.HTTP_200_OK)
@@ -57,7 +57,7 @@ class ArtistDeleteUpdateAV(APIView):
     @swagger_auto_schema(request_body=ArtistsSerializer)
     def put(self, request, id):
         instance = Artists.objects.get(pk=id)
-        put_serializer = ArtistsSerializer(instance, data=request.data)
+        put_serializer = ArtistsSerializer(instance, data=request.data, context={'request': request})
         if put_serializer.is_valid():
             put_serializer.save()
             return Response(put_serializer.data, status=status.HTTP_200_OK)
@@ -66,11 +66,11 @@ class ArtistDeleteUpdateAV(APIView):
 class StreamingPlatformAV(APIView):
     def get(self,request):
         platforms = StreamingPlatform.objects.all()
-        serialized_platforms = StreamingPlatformSerializer(platforms,many=True)
+        serialized_platforms = StreamingPlatformSerializer(platforms,many=True, context={'request': request})
         return Response(serialized_platforms.data,status=status.HTTP_200_OK)
     @swagger_auto_schema(request_body=StreamingPlatformSerializer)
     def post(self,request):
-        new_platform = StreamingPlatformSerializer(data=request.data)
+        new_platform = StreamingPlatformSerializer(data=request.data, context={'request': request})
         if new_platform.is_valid():
             new_platform.save()
             return Response(new_platform.data,status=status.HTTP_200_OK)
@@ -86,7 +86,7 @@ class StreamingPlatformDeleteUpdateAV(APIView):
     @swagger_auto_schema(request_body=StreamingPlatformSerializer)
     def put(self, request, id):
         instance = StreamingPlatform.objects.get(pk=id)
-        put_serializer = StreamingPlatformSerializer(instance, data=request.data)
+        put_serializer = StreamingPlatformSerializer(instance, data=request.data, context={'request': request})
         if put_serializer.is_valid():
             put_serializer.save()
             return Response(put_serializer.data, status=status.HTTP_200_OK)
