@@ -95,11 +95,11 @@ class StreamingPlatformDeleteUpdateAV(APIView):
 class ContentReviewAV(APIView):
     def get(self,request):
         reviews = ContentReviews.objects.all()
-        serialized_reviews = ContentReviewSerializer(reviews,many=True)
+        serialized_reviews = ContentReviewSerializer(reviews,many=True,context={'request': request})
         return Response(serialized_reviews.data,status=status.HTTP_200_OK)
     @swagger_auto_schema(request_body=ContentReviewSerializer)
     def post(self,request):
-        new_review = ContentReviewSerializer(data=request.data)
+        new_review = ContentReviewSerializer(data=request.data,context={'request': request})
         if new_review.is_valid():
             new_review.save()
             return Response(new_review.data,status=status.HTTP_200_OK)
@@ -115,7 +115,7 @@ class ContentReviewDeleteUpdateAV(APIView):
     @swagger_auto_schema(request_body=ContentReviewSerializer)
     def put(self, request, id):
         instance = ContentReviews.objects.get(pk=id)
-        put_serializer = ContentReviewSerializer(instance, data=request.data)
+        put_serializer = ContentReviewSerializer(instance, data=request.data,context={'request': request})
         if put_serializer.is_valid():
             put_serializer.save()
             return Response(put_serializer.data, status=status.HTTP_200_OK)
