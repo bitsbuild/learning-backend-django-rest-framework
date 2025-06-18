@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
 from django.core.validators import MinValueValidator,MaxValueValidator
-from django.utils import timezone
+from django.contrib.auth.models import User
 class StreamingPlatform(models.Model):
     platform_id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
     platform_name = models.CharField(max_length=70)
@@ -31,6 +31,7 @@ class ContentDetails(models.Model):
     def __str__(self):
         return self.content_name
 class ContentReviews(models.Model):
+    review_user = models.ForeignKey(User,on_delete=models.CASCADE)
     review_id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
     review_name = models.CharField(max_length=70)
     review_body = models.CharField(max_length=350)
