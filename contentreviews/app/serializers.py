@@ -1,3 +1,4 @@
+from app import models
 from app.models import ContentDetails,StreamingPlatform,Artists,ContentReviews
 from rest_framework import serializers
 class ContentReviewSerializer(serializers.ModelSerializer):

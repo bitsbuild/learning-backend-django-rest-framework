@@ -43,5 +43,12 @@ class ContentReviews(models.Model):
     review_created = models.DateTimeField(auto_now_add=True,editable=False)
     review_updated = models.DateTimeField(auto_now=True,editable=False)
     review_movie = models.ForeignKey(ContentDetails,on_delete=models.CASCADE,related_name="reviews")
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields = ['review_user','review_movie'],
+                name='one_review_per_user'
+            )
+        ]
     def __str__(self):
         return self.review_name
