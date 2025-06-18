@@ -1,42 +1,16 @@
-from rest_framework import generics
+from rest_framework import viewsets,generics
 from app.models import ContentDetails, ContentReviews, Artists, StreamingPlatform
 from app.serializers import ContentSerializer,ContentReviewSerializer,ArtistsSerializer,StreamingPlatformSerializer
-from django_filters.rest_framework import DjangoFilterBackend
-class ContentListCreateAV(generics.ListCreateAPIView):
+class ContentViewSet(viewsets.ModelViewSet):
     queryset = ContentDetails.objects.all()
     serializer_class = ContentSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['content_platform','content_released','artists']
-class ContentDetailAV(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ContentDetails.objects.all()
-    serializer_class = ContentSerializer
-class ArtistListCreateAV(generics.ListCreateAPIView):
+class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artists.objects.all()
     serializer_class = ArtistsSerializer
-class ArtistDetailAV(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Artists.objects.all()
-    serializer_class = ArtistsSerializer
-class StreamingPlatformListCreateAV(generics.ListCreateAPIView):
+class PlatformViewSet(viewsets.ModelViewSet):
     queryset = StreamingPlatform.objects.all()
     serializer_class = StreamingPlatformSerializer
-class StreamingPlatformDetailAV(generics.RetrieveUpdateDestroyAPIView):
-    queryset = StreamingPlatform.objects.all()
-    serializer_class = StreamingPlatformSerializer
-class ReviewsListCreateAV(generics.ListCreateAPIView):
+class ReviewViewSet(viewsets.ModelViewSet):
     queryset = ContentReviews.objects.all()
     serializer_class = ContentReviewSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['review_movie']
-class ReviewsDetailAV(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ContentReviews.objects.all()
-    serializer_class = ContentReviewSerializer
-class ContentPerPlatformAV(generics.ListAPIView):
-    serializer_class = ContentSerializer
-    def get_queryset(self):
-        platform_id = self.kwargs['pk']
-        return ContentDetails.objects.filter(content_platform=platform_id)
-class ContentPerArtistAV(generics.ListAPIView):
-    serializer_class = ContentSerializer
-    def get_queryset(self):
-        artist_id = self.kwargs['pk']
-        return ContentDetails.objects.filter(artists__artist_id=artist_id)
+
