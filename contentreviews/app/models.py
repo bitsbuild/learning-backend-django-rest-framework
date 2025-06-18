@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from django.core.validators import MinValueValidator,MaxValueValidator
 from django.contrib.auth.models import User
+
 class StreamingPlatform(models.Model):
     platform_id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
     platform_name = models.CharField(max_length=70)
@@ -11,6 +12,7 @@ class StreamingPlatform(models.Model):
     platform_updated = models.DateTimeField(auto_now=True,editable=False)
     def __str__(self):
         return self.platform_name
+    
 class Artists(models.Model):
     artist_id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
     artist_name = models.CharField(max_length=70)
@@ -19,6 +21,7 @@ class Artists(models.Model):
     artist_updated = models.DateTimeField(auto_now=True,editable=False)
     def __str__(self):
         return self.artist_name
+    
 class ContentDetails(models.Model):
     content_id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
     content_name = models.CharField(max_length=70)
@@ -30,6 +33,7 @@ class ContentDetails(models.Model):
     artists = models.ManyToManyField(Artists,related_name="content",blank=True)
     def __str__(self):
         return self.content_name
+    
 class ContentReviews(models.Model):
     review_user = models.ForeignKey(User,on_delete=models.CASCADE)
     review_id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
