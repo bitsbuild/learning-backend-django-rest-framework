@@ -43,8 +43,6 @@ class ContentReviews(models.Model):
     review_created = models.DateTimeField(auto_now_add=True,editable=False)
     review_updated = models.DateTimeField(auto_now=True,editable=False)
     review_movie = models.ForeignKey(ContentDetails,on_delete=models.CASCADE,related_name="reviews")
-    review_count = models.IntegerField(default=0)
-    review_average = models.FloatField(default=0)
     class Meta:
         constraints = [
             models.UniqueConstraint(

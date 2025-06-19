@@ -22,9 +22,4 @@ class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ContentReviewSerializer
     permission_classes = [ReviewPermissions]
     def perform_create(self, serializer):
-        content_id = serializer.validated_data['review_movie']
-        content = ContentDetails.objects.get(pk=content_id)
-        content.review_average = ((content.review_average*content.review_count)+self.request.data['review_stars'])/(content.review_count+1)
-        content.review_count += 1
-        content.save()
         serializer.save(review_user=self.request.user)
