@@ -2,19 +2,19 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from app.models import ContentDetails, ContentReviews, Artists, StreamingPlatform
 from app.serializers import ContentSerializer,ContentReviewSerializer,ArtistsSerializer,StreamingPlatformSerializer
-from rest_framework.permissions import IsAdminUser,IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 class ContentViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = ContentDetails.objects.all()
     serializer_class = ContentSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['artists','content_platform']
 class ArtistViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Artists.objects.all()
     serializer_class = ArtistsSerializer
 class PlatformViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = StreamingPlatform.objects.all()
     serializer_class = StreamingPlatformSerializer
 class ReviewViewSet(viewsets.ModelViewSet):
