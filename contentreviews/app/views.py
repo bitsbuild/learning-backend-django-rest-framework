@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from app.models import ContentDetails, ContentReviews, Artists, StreamingPlatform
 from app.serializers import ContentSerializer,ContentReviewSerializer,ArtistsSerializer,StreamingPlatformSerializer
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser,IsAuthenticated
 class ContentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
     queryset = ContentDetails.objects.all()
@@ -18,6 +18,6 @@ class PlatformViewSet(viewsets.ModelViewSet):
     queryset = StreamingPlatform.objects.all()
     serializer_class = StreamingPlatformSerializer
 class ReviewViewSet(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
     queryset = ContentReviews.objects.all()
     serializer_class = ContentReviewSerializer
-
