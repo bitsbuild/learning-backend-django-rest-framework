@@ -6,9 +6,9 @@ from app.permissions import AdminOrReadOnly,ReviewPermissions
 class ContentViewSet(viewsets.ModelViewSet):
     queryset = ContentDetails.objects.all()
     serializer_class = ContentSerializer
+    permission_classes=[permissions.IsAuthenticated,AdminOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['artists','content_platform']
-    permission_classes=[permissions.IsAuthenticated,AdminOrReadOnly]
 class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artists.objects.all()
     serializer_class = ArtistsSerializer
