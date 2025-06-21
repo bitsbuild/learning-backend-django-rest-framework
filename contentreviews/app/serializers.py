@@ -3,11 +3,18 @@ from app.models import ContentDetails,StreamingPlatform,Artists,ContentReviews
 from rest_framework import serializers
 class ContentReviewSerializer(serializers.ModelSerializer):
     review_user = serializers.StringRelatedField(read_only=True)
+    review_movie = serializers.CharField(source='review_movie.content_name')
     class Meta:
         model = ContentReviews
         fields = '__all__'
 class ContentSerializer(serializers.ModelSerializer):
     reviews = ContentReviewSerializer(many=True,read_only=True)
+    content_platform = serializers.CharField(source='content_platform.platform_name',read_only=True)
+    artists = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='artist_name'
+    )
     class Meta:
         model = ContentDetails
         fields = '__all__'
