@@ -10,6 +10,7 @@ class ContentViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend,filters.SearchFilter]
     filterset_fields = ['artists','content_platform','content_released']
     search_fields = ['artists__artist_name','content_platform__platform_name']
+    # TO HAVE DIFFERENT SEARCH METHODS ADD THE SPECIAL CHARACTER AS PREFIX AS FIRST CHARACTER OF SEARCH FIELD STRING
 class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artists.objects.all()
     serializer_class = ArtistsSerializer
