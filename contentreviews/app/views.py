@@ -21,5 +21,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     queryset = ContentReviews.objects.all()
     serializer_class = ContentReviewSerializer
     permission_classes = [permissions.IsAuthenticated,ReviewPermissions]
+    filter_backends=[DjangoFilterBackend]
+    filterset_fields=['review_movie','review_stars']
     def perform_create(self, serializer):
         serializer.save(review_user=self.request.user)
