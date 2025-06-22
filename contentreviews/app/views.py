@@ -16,13 +16,13 @@ class ArtistViewSet(viewsets.ModelViewSet):
     serializer_class = ArtistsSerializer
     permission_classes=[permissions.IsAuthenticated,AdminOrReadOnly]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['artist_name']
+    search_fields = ['artist_name','artist_about']
 class PlatformViewSet(viewsets.ModelViewSet):
     queryset = StreamingPlatform.objects.all()
     serializer_class = StreamingPlatformSerializer
     permission_classes=[permissions.IsAuthenticated,AdminOrReadOnly]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['platform_name']
+    search_fields = ['platform_name','platform_about','platform_url']
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = ContentReviews.objects.all()
     serializer_class = ContentReviewSerializer
