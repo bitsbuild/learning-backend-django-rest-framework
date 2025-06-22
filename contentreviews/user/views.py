@@ -1,10 +1,12 @@
 from user.serializers import UserSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,throttle_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
+from rest_framework.throttling import UserRateThrottle
 @api_view(['POST'])
+@throttle_classes([UserRateThrottle])
 def create_account(request):
     username = request.data['username']
     password = request.data['password']
@@ -36,6 +38,7 @@ def create_account(request):
             "error":str(serializer.errors)
         },status=status.HTTP_400_BAD_REQUEST)
 @api_view(['POST'])
+@throttle_classes([UserRateThrottle])
 def delete_account(request):
     try:    
         request.user.delete()
