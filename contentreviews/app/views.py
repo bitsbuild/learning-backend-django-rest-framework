@@ -4,6 +4,7 @@ from app.models import ContentDetails, ContentReviews, Artists, StreamingPlatfor
 from app.serializers import ContentSerializer,ContentReviewSerializer,ArtistsSerializer,StreamingPlatformSerializer
 from app.permissions import AdminOrReadOnly,ReviewPermissions 
 from rest_framework.throttling import UserRateThrottle
+from app.throttling import ContentThrottle,PlatformThrottle,ArtistsThrottle,ReviewThrottle
 class ContentViewSet(viewsets.ModelViewSet):
     queryset = ContentDetails.objects.all()
     serializer_class = ContentSerializer
@@ -11,7 +12,7 @@ class ContentViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend,filters.SearchFilter]
     filterset_fields = ['artists','content_platform','content_released']
     search_fields = ['artists__artist_name','content_platform__platform_name']
-    throttle_classes = [UserRateThrottle]
+    throttle_classes = [ContentThrottle]
     # TO HAVE DIFFERENT SEARCH METHODS ADD THE SPECIAL CHARACTER AS PREFIX AS FIRST CHARACTER OF SEARCH FIELD STRING
 class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artists.objects.all()
@@ -19,14 +20,14 @@ class ArtistViewSet(viewsets.ModelViewSet):
     permission_classes=[permissions.IsAuthenticated,AdminOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ['artist_name','artist_about']
-    throttle_classes = [UserRateThrottle]
+    throttle_classes = [ArtistsThrottle]
 class PlatformViewSet(viewsets.ModelViewSet):
     queryset = StreamingPlatform.objects.all()
     serializer_class = StreamingPlatformSerializer
     permission_classes=[permissions.IsAuthenticated,AdminOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ['platform_name','platform_about','platform_url']
-    throttle_classes = [UserRateThrottle]
+    throttle_classes = [PlatformThrottle]
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = ContentReviews.objects.all()
     serializer_class = ContentReviewSerializer
@@ -34,6 +35,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
     filter_backends=[DjangoFilterBackend,filters.SearchFilter]
     filterset_fields=['review_movie','review_stars','review_user']
     search_fields = ['review_movie__content_name']
-    throttle_classes = [UserRateThrottle]
+    throttle_classes = [ReviewThrottle]
     def perform_create(self, serializer):
         serializer.save(review_user=self.request.user)
