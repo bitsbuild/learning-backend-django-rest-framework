@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework.authtoken',
     'user',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,5 +89,5 @@ REST_FRAMEWORK = {
     )
 }
 SIMPLE_JWT = {
-    'ROTATE_REFRESH_TOKENS' : True
+    "ROTATE_REFRESH_TOKENS": True,
 }
