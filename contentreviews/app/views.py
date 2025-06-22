@@ -4,7 +4,7 @@ from app.models import ContentDetails, ContentReviews, Artists, StreamingPlatfor
 from app.serializers import ContentSerializer,ContentReviewSerializer,ArtistsSerializer,StreamingPlatformSerializer
 from app.permissions import AdminOrReadOnly,ReviewPermissions 
 from rest_framework.throttling import UserRateThrottle
-from app.throttling import ContentThrottle,PlatformThrottle,ArtistsThrottle,ReviewThrottle
+from app.throttling import ContentThrottle,PlatformThrottle,ArtistThrottle,ReviewThrottle
 class ContentViewSet(viewsets.ModelViewSet):
     queryset = ContentDetails.objects.all()
     serializer_class = ContentSerializer
@@ -20,7 +20,7 @@ class ArtistViewSet(viewsets.ModelViewSet):
     permission_classes=[permissions.IsAuthenticated,AdminOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ['artist_name','artist_about']
-    throttle_classes = [ArtistsThrottle]
+    throttle_classes = [ArtistThrottle]
 class PlatformViewSet(viewsets.ModelViewSet):
     queryset = StreamingPlatform.objects.all()
     serializer_class = StreamingPlatformSerializer
