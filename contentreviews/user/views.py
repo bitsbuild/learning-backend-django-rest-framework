@@ -2,7 +2,8 @@ from user.serializers import UserSerializer
 from rest_framework.decorators import api_view,throttle_classes
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.authtoken.models import Token
+# from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 from rest_framework.throttling import UserRateThrottle
 @api_view(['POST'])
@@ -22,10 +23,15 @@ def create_account(request):
         if serializer.is_valid():
             serializer.save()
             user_token_search = User.objects.get(username=username)
-            token,collect = Token.objects.get_or_create(user=user_token_search)
+            # token,collect = Token.objects.get_or_create(user=user_token_search)
+            refresh = RefreshToken.for_user(user_token_search)
+            token = {
+                        'refresh': str(refresh),
+                        'access': str(refresh.access_token),
+                    }
             return Response({
                 "status":"Account Created Successfully",
-                "token":str(token.key)
+                "token":token
             },status=status.HTTP_200_OK)
         else:
             return Response({
