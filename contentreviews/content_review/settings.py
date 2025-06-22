@@ -13,9 +13,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'app',
     'django_filters',
-    # 'rest_framework.authtoken',
+    'rest_framework.authtoken',
     'user',
-    'rest_framework_simplejwt.token_blacklist',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,13 +69,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
-    # 'DEFAULT_THROTTLE_CLASSES': [
-    #     'rest_framework.throttling.AnonRateThrottle',
-    #     'rest_framework.throttling.UserRateThrottle'
-    # ],
     'DEFAULT_THROTTLE_RATES': {
         'anon':'30/min',
         'user':'60/min',
@@ -87,7 +81,4 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     )
-}
-SIMPLE_JWT = {
-    "ROTATE_REFRESH_TOKENS": True,
 }
