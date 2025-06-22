@@ -1,6 +1,7 @@
 from rest_framework import viewsets,permissions,filters
 from django_filters.rest_framework import DjangoFilterBackend
 from app.models import ContentDetails, ContentReviews, Artists, StreamingPlatform
+from app.pagination import ContentsPagination
 from app.serializers import ContentSerializer,ContentReviewSerializer,ArtistsSerializer,StreamingPlatformSerializer
 from app.permissions import AdminOrReadOnly,ReviewPermissions 
 from rest_framework.throttling import UserRateThrottle
@@ -13,6 +14,7 @@ class ContentViewSet(viewsets.ModelViewSet):
     filterset_fields = ['artists','content_platform','content_released']
     search_fields = ['artists__artist_name','content_platform__platform_name']
     throttle_classes = [ContentThrottle]
+    pagination_class = ContentsPagination
     # TO HAVE DIFFERENT SEARCH METHODS ADD THE SPECIAL CHARACTER AS PREFIX AS FIRST CHARACTER OF SEARCH FIELD STRING
 class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artists.objects.all()
