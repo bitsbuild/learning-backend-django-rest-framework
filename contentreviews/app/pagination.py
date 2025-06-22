@@ -13,4 +13,6 @@ class ContentsLoPagination(LimitOffsetPagination):
     limit_query_param = 'limit'
     offset_query_param = 'start'
 class ContentsCPagination(PageNumberPagination):
-    pass
+    page_size = 3
+    ordering = 'content_created'
+    cursor_query_param = 'autopage'
