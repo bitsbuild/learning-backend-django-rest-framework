@@ -81,5 +81,8 @@ REST_FRAMEWORK = {
         'content_throttle':'60/min',
         'platform_throttle':'60/min',
         'artist_throttle':'60/min'
-    }
+    },
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
 }
