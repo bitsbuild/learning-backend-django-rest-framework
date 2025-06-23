@@ -42,6 +42,13 @@ class UserTests(APITestCase):
         }
         response = self.client.post(reverse('token'),data)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
+    def test_gettoken_user_failure_wrong_password(self):
+        data = {
+            "username":"jashupadhyay",
+            "password":"12345"
+        }
+        response = self.client.post(reverse('token'),data)
+        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
     def test_delete_user(self):
         self.token = Token.objects.get(user__username='jashupadhyay')
         self.client.credentials(HTTP_AUTHORIZATION='Token '+self.token.key)
