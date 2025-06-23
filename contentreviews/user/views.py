@@ -22,7 +22,7 @@ def create_account(request):
         else:
             return Response({
                 "status":"Account Creation Failed",
-                # "error":str(serializer.errors)
+                "error":str(serializer.errors)
             },status=status.HTTP_400_BAD_REQUEST)
 @api_view(['POST'])
 @throttle_classes([UserRateThrottle])
