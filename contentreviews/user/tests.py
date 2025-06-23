@@ -5,6 +5,8 @@ from rest_framework import status
 from django.urls import reverse
 from django.contrib.auth.models import User
 class UserTests(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="jashupadhyay",password="12345678")
     def test_create_user_success(self):
         data = {
             "username":"testcase",
@@ -13,6 +15,13 @@ class UserTests(APITestCase):
             "email":"testcase@example.come"
         }
         response = self.client.post(reverse('create'),data)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+    def test_gettoken_user_success(self):
+        data = {
+            "username":"jashupadhyay",
+            "password":"12345678"
+        }
+        response = self.client.post(reverse('token'),data)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
     def test_delete_user(self):
         pass
