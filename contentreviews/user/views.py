@@ -1,27 +1,19 @@
 from user.serializers import UserSerializer
-from rest_framework.decorators import api_view,throttle_classes
+from rest_framework.decorators import api_view,throttle_classes,permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from rest_framework.throttling import UserRateThrottle
+from rest_framework.permissions import AllowAny,IsAuthenticated
 @api_view(['POST'])
 @throttle_classes([UserRateThrottle])
+@permission_classes([AllowAny])
 def create_account(request):
-    username = request.data['username']
-    password = request.data['password']
-    confirm_password = request.data['confirm_password']
-    email = request.data['email']
-    if confirm_password == password:
-        user = {
-            "username":username,
-            "password":password,
-            "email":email
-        }
-        serializer = UserSerializer(data=user)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            user_token_search = User.objects.get(username=username)
+            user_token_search = serializer.instance
             token,collect = Token.objects.get_or_create(user=user_token_search)
             return Response({
                 "status":"Account Created Successfully",
@@ -32,13 +24,9 @@ def create_account(request):
                 "status":"Account Creation Failed",
                 # "error":str(serializer.errors)
             },status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response({
-            "status":"Account Creation Failed",
-            # "error":str(serializer.errors)
-        },status=status.HTTP_400_BAD_REQUEST)
 @api_view(['POST'])
 @throttle_classes([UserRateThrottle])
+@permission_classes([IsAuthenticated])
 def delete_account(request):
     try:    
         request.user.delete()
