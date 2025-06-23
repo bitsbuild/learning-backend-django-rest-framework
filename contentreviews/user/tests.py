@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 class UserTests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username="jashupadhyay",password="12345678")
+        self.user = User.objects.create_user(username="jashupadhyay",password="12345678",email="jashupadhyay.java@gmail.com")
     def test_create_user_success(self):
         data = {
             "username":"testcase",
@@ -17,6 +17,24 @@ class UserTests(APITestCase):
         }
         response = self.client.post(reverse('create'),data)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
+    def test_create_user_failure_passwords_do_not_match(self):
+        data = {
+            "username":"testcase",
+            "password":"jash_password",
+            "confirm_password":"confirm_jash_password",
+            "email":"testcase@example.come"
+        }
+        response = self.client.post(reverse('create'),data)
+        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
+    def test_create_account_failure_email_repeat(self):
+        data = {
+            "username":"testcase",
+            "password":"jash_password",
+            "confirm_password":"confirm_jash_password",
+            "email":"jashupadhyay.java@gmail.com"
+        }
+        response = self.client.post(reverse('create'),data)
+        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
     def test_gettoken_user_success(self):
         data = {
             "username":"jashupadhyay",
